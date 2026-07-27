@@ -6,7 +6,7 @@ import os
 
 # ===== ТОКЕН ИЗ ПЕРЕМЕННЫХ ОКРУЖЕНИЯ =====
 TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD_ID = 1396600495552069632      # <-- ЗДЕСЬ БУКВА L!
+GUILD_ID = 1396600495552069632
 CATEGORY_ID = 1396600496311238793
 SUPPORT_ROLE_ID = 1396600495552069640
 # ==========================================
@@ -181,7 +181,7 @@ async def on_channel_delete(channel):
 
 @bot.event
 async def on_ready():
-    await bot.tree.sync(guild=discord.Object(id=GUILD_ID))  # <-- И ЗДЕСЬ ТОЖЕ L!
+    await bot.tree.sync(guild=discord.Object(id=GUILD_ID))
     print(f'✅ Бот {bot.user} запущен и готов к работе!')
     print(f'   Сервер: {bot.guilds[0].name if bot.guilds else "Не найден"}')
     print('   Используйте /setup в нужном канале, чтобы создать кнопку.')
