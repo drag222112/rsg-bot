@@ -2,13 +2,14 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 import asyncio
+import os  # <-- ЭТО ВАЖНО!
 
-# ===== ТОКЕН (ОБЯЗАТЕЛЬНО ЗАМЕНИТЕ ПОСЛЕ ЗАПУСКА) =====
+# ===== ТОКЕН ИЗ ПЕРЕМЕННЫХ ОКРУЖЕНИЯ =====
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD_ID = 1396600495552069632
 CATEGORY_ID = 1396600496311238793
 SUPPORT_ROLE_ID = 1396600495552069640
-# ========================================================
+# ==========================================
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -17,9 +18,8 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 active_tickets = {}
 
 class TicketModal(discord.ui.Modal, title='📩 Создание тикета'):
-    # Все label теперь короче 45 символов
     problem = discord.ui.TextInput(
-        label='Имя, возраст, часы, пояс',  # было длинное
+        label='Имя, возраст, часы, пояс',
         style=discord.TextStyle.paragraph,
         placeholder='...',
         required=True,
@@ -32,20 +32,20 @@ class TicketModal(discord.ui.Modal, title='📩 Создание тикета'):
         max_length=50
     )
     priority = discord.ui.TextInput(
-        label='Опыт в кланах',  # сократил
+        label='Опыт в кланах',
         placeholder='...',
         required=True,
         max_length=20
     )
     pc_specs = discord.ui.TextInput(
-        label='ПК (CPU, GPU, RAM)',  # сократил
+        label='ПК (CPU, GPU, RAM)',
         style=discord.TextStyle.short,
         placeholder='Например: i7-10700, RTX 3060, 16GB',
         required=True,
         max_length=200
     )
     battlemetrics_url = discord.ui.TextInput(
-        label='Ссылка Battlemetrics',  # сократил
+        label='Ссылка Battlemetrics',
         style=discord.TextStyle.short,
         placeholder='https://www.battlemetrics.com/...',
         required=True,
