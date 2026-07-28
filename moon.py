@@ -188,19 +188,26 @@ async def on_ready():
     print(f'   Сервер: {bot.guilds[0].name if bot.guilds else "Не найден"}')
     print('   Используйте /setup в нужном канале, чтобы создать кнопку.')
 
-# ===== ВЕБ-СЕРВЕР ДЛЯ RENDER (чтобы бот не засыпал) =====
+# ===== ВЕБ-СЕРВЕР ДЛЯ RENDER (НАСТОЯЩИЙ, РАБОЧИЙ) =====
 app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return "Бот работает!"
+    return "Бот работает!", 200
+
+@app.route('/health')
+def health():
+    return "OK", 200
 
 def run_web():
-    app.run(host='0.0.0.0', port=8080)
+    # Запускаем Flask на порту 8080
+    app.run(host='0.0.0.0', port=8080, debug=False, threaded=True)
 
 # ===== ЗАПУСК =====
 if __name__ == '__main__':
-    # Запускаем веб-сервер в отдельном потоке
-    threading.Thread(target=run_web, daemon=True).start()
+    # Запускаем Flask в отдельном потоке
+    web_thread = threading.Thread(target=run_web, daemon=True)
+    web_thread.start()
+    print("🌐 Веб-сервер запущен на порту 8080")
     # Запускаем бота
     bot.run(TOKEN)
