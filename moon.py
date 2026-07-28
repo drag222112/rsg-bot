@@ -3,6 +3,8 @@ from discord import app_commands
 from discord.ext import commands
 import asyncio
 import os
+from flask import Flask
+import threading
 
 # ===== ТОКЕН ИЗ ПЕРЕМЕННЫХ ОКРУЖЕНИЯ =====
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -186,10 +188,7 @@ async def on_ready():
     print(f'   Сервер: {bot.guilds[0].name if bot.guilds else "Не найден"}')
     print('   Используйте /setup в нужном канале, чтобы создать кнопку.')
 
-if __name__ == '__main__':
-    from flask import Flask
-import threading
-
+# ===== ВЕБ-СЕРВЕР ДЛЯ RENDER (чтобы бот не засыпал) =====
 app = Flask(__name__)
 
 @app.route('/')
@@ -198,5 +197,10 @@ def hello():
 
 def run_web():
     app.run(host='0.0.0.0', port=8080)
-threading.Thread(target=run_web, daemon=True).start()
+
+# ===== ЗАПУСК =====
+if __name__ == '__main__':
+    # Запускаем веб-сервер в отдельном потоке
+    threading.Thread(target=run_web, daemon=True).start()
+    # Запускаем бота
     bot.run(TOKEN)
