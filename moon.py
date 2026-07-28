@@ -187,4 +187,16 @@ async def on_ready():
     print('   Используйте /setup в нужном канале, чтобы создать кнопку.')
 
 if __name__ == '__main__':
+    from flask import Flask
+import threading
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return "Бот работает!"
+
+def run_web():
+    app.run(host='0.0.0.0', port=8080)
+threading.Thread(target=run_web, daemon=True).start()
     bot.run(TOKEN)
